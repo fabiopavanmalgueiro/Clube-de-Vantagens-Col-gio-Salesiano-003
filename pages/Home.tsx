@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Bell, Sparkles, Utensils, GraduationCap, Car, ShoppingBag, Activity, Gamepad2, Briefcase, MapPin, Menu, PawPrint, Navigation, Baby, Ticket, Shirt, Dumbbell, Clapperboard, Timer, Star } from 'lucide-react';
-import { categories, partners, currentUser } from '../services/data';
+import { Search, Bell, Sparkles, Utensils, GraduationCap, Car, ShoppingBag, Activity, Gamepad2, Briefcase, MapPin, Menu, PawPrint, Navigation, Baby, Ticket, Shirt, Dumbbell, Clapperboard, Timer, Star, Coins, Gift } from 'lucide-react';
+import { categories, partners, currentUser, addCoins } from '../services/data';
 import PartnerCard from '../components/PartnerCard';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAiRecommendation } from '../services/geminiService';
@@ -62,11 +62,26 @@ const Home: React.FC<HomeProps> = ({ onOpenMenu }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [aiResponse, setAiResponse] = useState<string | null>(null);
   const [isSearchingAi, setIsSearchingAi] = useState(false);
+  const [coins, setCoins] = useState(currentUser.coins);
+  const [dailyBonusClaimed, setDailyBonusClaimed] = useState(false);
   
   // Location State
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
   const [sortByDistance, setSortByDistance] = useState(false);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+
+  // Sync coins with current user data on focus
+  useEffect(() => {
+    setCoins(currentUser.coins);
+  }, []);
+
+  const handleClaimBonus = () => {
+    if (dailyBonusClaimed) return;
+    addCoins(10, "Bônus Diário");
+    setCoins(currentUser.coins);
+    setDailyBonusClaimed(true);
+    alert("Você ganhou 10 CoinZ pelo login diário!");
+  };
 
   // Calculate distance (Haversine Formula) - Returns distance in KM
   const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
@@ -170,19 +185,44 @@ const Home: React.FC<HomeProps> = ({ onOpenMenu }) => {
                  </h1>
             </div>
 
-            <Link 
-                to="/notifications"
-                className="p-2 bg-white/10 backdrop-blur-md rounded-xl text-white hover:bg-white/20 transition-all active:scale-95 border border-white/10 relative group"
-            >
-                <Bell size={24} className="group-hover:animate-swing" />
-                <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-yellow-400 border-2 border-red-600 rounded-full"></span>
-            </Link>
+            <div className="flex gap-2">
+                 {/* CoinZ removed from here to avoid overlap */}
+                <Link 
+                    to="/notifications"
+                    className="p-2 bg-white/10 backdrop-blur-md rounded-xl text-white hover:bg-white/20 transition-all active:scale-95 border border-white/10 relative group"
+                >
+                    <Bell size={24} className="group-hover:animate-swing" />
+                    <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-yellow-400 border-2 border-red-600 rounded-full"></span>
+                </Link>
+            </div>
         </div>
         
         {/* Welcome Section - z-10 */}
-        <div className="relative z-10 mt-2 text-center">
+        <div className="relative z-10 mt-0 text-center">
             <p className="text-red-200 text-sm font-medium mb-1 animate-fadeIn">Bem-vindo(a) aluno,</p>
             <h1 className="text-3xl font-extrabold text-white tracking-tight drop-shadow-md animate-slideUp">{currentUser.name.split(' ')[0]}</h1>
+            
+            {/* CoinZ & Bonus Display - Centered Below Name */}
+            <div className="flex justify-center items-center gap-3 mt-3 animate-fadeIn">
+                 {/* CoinZ Badge */}
+                 <Link to="/coin-store" className="flex items-center gap-2 bg-black/20 backdrop-blur-md border border-white/10 px-4 py-1.5 rounded-full text-white hover:bg-black/30 transition shadow-sm group">
+                    <div className="bg-yellow-400 rounded-full p-1 group-hover:scale-110 transition-transform">
+                        <Coins size={14} className="text-yellow-900 fill-yellow-900" />
+                    </div>
+                    <span className="font-bold text-sm tracking-wide">{coins} <span className="text-xs font-normal opacity-80">CoinZ</span></span>
+                </Link>
+
+                 {/* Daily Bonus Button */}
+                 {!dailyBonusClaimed && (
+                    <button 
+                        onClick={handleClaimBonus}
+                        className="flex items-center gap-2 bg-white/90 hover:bg-white text-salesiano-red text-xs font-bold py-1.5 px-3 rounded-full shadow-lg transition animate-bounce-slow"
+                    >
+                        <Gift size={14} />
+                        <span>Pegar Bônus</span>
+                    </button>
+                 )}
+            </div>
         </div>
 
         {/* Search Bar - z-50 to float above Featured section */}

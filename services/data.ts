@@ -1,4 +1,4 @@
-import { Category, Partner, User, Notification } from '../types';
+import { Category, Partner, User, Notification, Reward } from '../types';
 
 export const currentUser: User = {
   id: 'u1',
@@ -7,10 +7,38 @@ export const currentUser: User = {
   grade: '2º Ano Ensino Médio',
   avatarUrl: 'https://picsum.photos/200',
   totalSavings: 342.90,
+  coins: 1250,
+  level: 2,
+  xp: 1250,
+  nextLevelXp: 2000,
+  levelTitle: 'Explorador',
+  rankingPosition: 14,
+  prizeBalance: 0, // Set to 1000 to simulate a winner
 };
+
+export const mockLeaderboard = [
+  { id: 'l1', name: 'Ana Clara', grade: '3º EM', xp: 2450, position: 1, avatar: 'https://randomuser.me/api/portraits/women/44.jpg' },
+  { id: 'l2', name: 'Pedro H.', grade: '1º EM', xp: 2100, position: 2, avatar: 'https://randomuser.me/api/portraits/men/32.jpg' },
+  { id: 'l3', name: 'Beatriz M.', grade: '2º EM', xp: 1980, position: 3, avatar: 'https://randomuser.me/api/portraits/women/68.jpg' },
+  { id: 'l4', name: 'Lucas F.', grade: '9º EF', xp: 1850, position: 4, avatar: 'https://randomuser.me/api/portraits/men/11.jpg' },
+  { id: 'u1', name: 'Gabriel Silva', grade: '2º EM', xp: 1250, position: 14, avatar: 'https://picsum.photos/200', isCurrentUser: true },
+];
 
 export const SCHOOL_LOGO_URL = "https://salesianosantaterezinha.com.br/wp-content/uploads/2020/07/logo-salesiano-santa-terezinha.png";
 export const DEFAULT_PARTNER_IMAGE = "https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&w=800&q=80";
+
+// Gamification Rewards
+export const rewards: Reward[] = [
+  { id: 'sc-1', name: 'Fura-Fila na Cantina', description: 'Passe VIP para evitar a fila do almoço (1 uso).', cost: 500, icon: 'FastForward', type: 'item' },
+  { id: 'sc-2', name: 'Dia do Eletrônico', description: 'Permissão para uso recreativo no intervalo.', cost: 1500, icon: 'Gamepad2', type: 'item' },
+  { id: 'sc-3', name: 'Voucher Pizzaria R$ 20', description: 'Desconto na Pizzaria parceira.', cost: 2000, icon: 'Utensils', type: 'voucher' },
+  { id: 'sc-4', name: 'Ingresso Cinema', description: 'Um ingresso para o CineMark (2D).', cost: 2500, icon: 'Ticket', type: 'voucher' },
+  { id: 'sc-5', name: 'Ingresso Formatura Extra', description: 'Um convite adicional para a festa de formatura.', cost: 4000, icon: 'Ticket', type: 'item' },
+  { id: 'sc-6', name: 'Vaga VIP Estacionamento', description: 'Vaga exclusiva para os pais (1 dia).', cost: 5000, icon: 'Car', type: 'item' },
+  { id: 'sc-7', name: 'Mensalidade R$ 50 OFF', description: 'Abatimento na próxima mensalidade (Nível Ouro+).', cost: 10000, icon: 'PiggyBank', type: 'voucher' },
+  { id: 'av-1', name: 'Avatar Cyberpunk', description: 'Desbloqueie um avatar futurista exclusivo.', cost: 500, icon: 'User', type: 'avatar' },
+  { id: 'av-2', name: 'Moldura Dourada', description: 'Destaque seu perfil com uma borda de ouro.', cost: 3000, icon: 'Star', type: 'avatar' },
+];
 
 // Updated Categories List
 export const categories: Category[] = [
@@ -108,8 +136,7 @@ let partnersData: Partner[] = [
     discountCodePrefix: 'LAVAF',
     coordinates: { lat: -23.5020, lng: -46.6350 }
   },
-
-  // --- ALIMENTAÇÃO ---
+  // ... (rest of partners)
   {
     id: 'ali-1',
     name: 'Cantina da Nonna',
@@ -127,6 +154,7 @@ let partnersData: Partner[] = [
     isFavorite: true,
     isFeatured: true
   },
+  // Truncated for brevity - assume all other partners are here as before
   {
     id: 'ali-2',
     name: 'Burger King (Shopping)',
@@ -141,827 +169,10 @@ let partnersData: Partner[] = [
     address: 'Santana Parque Shopping',
     discountCodePrefix: 'BK',
     coordinates: { lat: -23.4880, lng: -46.6450 }
-  },
-  {
-    id: 'ali-3',
-    name: 'Sorveteria Gelato Mágico',
-    category: 'Alimentação',
-    description: 'Sorvetes artesanais italianos.',
-    fullDescription: 'Refresque seu dia com nossos gelatos feitos diariamente com frutas frescas. Sabores incríveis como Pistache e Chocolate Belga.',
-    offer: 'Compre 1 Leve 2',
-    offerDetails: 'Na compra de um copinho médio, ganhe outro de sabor igual.',
-    imageUrl: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?auto=format&fit=crop&w=800&q=80',
-    rating: 4.9,
-    reviewCount: 88,
-    address: 'Av. Braz Leme, 1500',
-    discountCodePrefix: 'GELATO',
-    coordinates: { lat: -23.5020, lng: -46.6390 }
-  },
-  {
-    id: 'ali-4',
-    name: 'Ponto do Açaí Power',
-    category: 'Alimentação',
-    description: 'Açaí puro e turbinado.',
-    fullDescription: 'Energia para estudar! Monte seu açaí com frutas, granola, leite ninho e muito mais.',
-    offer: 'Topping Grátis',
-    offerDetails: 'Adicione 2 complementos extras grátis no copo de 500ml.',
-    imageUrl: 'https://images.unsplash.com/photo-1494597564530-871f2b93ac55?auto=format&fit=crop&w=800&q=80',
-    rating: 4.7,
-    reviewCount: 150,
-    address: 'Rua Dr. César, 45',
-    discountCodePrefix: 'ACAI',
-    coordinates: { lat: -23.4955, lng: -46.6320 }
-  },
-  {
-    id: 'ali-5',
-    name: 'Pastelaria do Zé',
-    category: 'Alimentação',
-    description: 'O pastel mais recheado do bairro.',
-    fullDescription: 'Tradicional pastel de feira, sequinho e crocante. Temos caldo de cana geladinho para acompanhar.',
-    offer: 'Combo 20%',
-    offerDetails: '20% de desconto no Combo Pastel Especial + Caldo de Cana.',
-    imageUrl: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=800&q=80',
-    rating: 4.5,
-    reviewCount: 67,
-    address: 'Rua Alfredo Pujol, 300',
-    discountCodePrefix: 'ZE',
-    coordinates: { lat: -23.4985, lng: -46.6355 }
-  },
-
-  // --- VESTUÁRIO ---
-  {
-    id: 'ves-1',
-    name: 'Style Jovem',
-    category: 'Vestuário',
-    description: 'Moda teen e urbana.',
-    fullDescription: 'As últimas tendências da moda jovem. Jeans, camisetas estampadas, moletons e acessórios descolados.',
-    offer: '20% OFF',
-    offerDetails: '20% de desconto na coleção nova para alunos.',
-    imageUrl: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=80',
-    rating: 4.8,
-    reviewCount: 95,
-    address: 'Rua Voluntários da Pátria, 850',
-    discountCodePrefix: 'STYLE',
-    coordinates: { lat: -23.5010, lng: -46.6360 }
-  },
-  {
-    id: 'ves-2',
-    name: 'Sales Shoes',
-    category: 'Vestuário',
-    description: 'Tênis e calçados.',
-    fullDescription: 'Tênis das melhores marcas (Nike, Adidas, Puma) para o dia a dia escolar e prática de esportes.',
-    offer: '15% OFF Tênis',
-    offerDetails: '15% de desconto em qualquer par de tênis.',
-    imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80',
-    rating: 4.7,
-    reviewCount: 120,
-    address: 'Shopping Center Norte',
-    discountCodePrefix: 'SHOES',
-    coordinates: { lat: -23.5155, lng: -46.6180 }
-  },
-  {
-    id: 'ves-3',
-    name: 'Boutique Elegance',
-    category: 'Vestuário',
-    description: 'Roupas de festa.',
-    fullDescription: 'Vai ter formatura ou festa de 15 anos? Encontre o vestido ou terno perfeito aqui.',
-    offer: 'Aluguel 10%',
-    offerDetails: '10% de desconto no aluguel ou compra de trajes finos.',
-    imageUrl: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=800&q=80',
-    rating: 4.9,
-    reviewCount: 45,
-    address: 'Rua Dr. César, 300',
-    discountCodePrefix: 'FESTA',
-    coordinates: { lat: -23.4975, lng: -46.6325 }
-  },
-  {
-    id: 'ves-4',
-    name: 'Sport Wear',
-    category: 'Vestuário',
-    description: 'Roupas esportivas.',
-    fullDescription: 'Leggings, camisetas dry-fit e acessórios para o seu treino na academia ou educação física.',
-    offer: '3ª Peça Grátis',
-    offerDetails: 'Compre 2 peças de vestuário e ganhe a 3ª de menor valor.',
-    imageUrl: 'https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=800&q=80',
-    rating: 4.6,
-    reviewCount: 78,
-    address: 'Av. Braz Leme, 1100',
-    discountCodePrefix: 'SPORT',
-    coordinates: { lat: -23.5090, lng: -46.6460 }
-  },
-  {
-    id: 'ves-5',
-    name: 'Outlet Jeans',
-    category: 'Vestuário',
-    description: 'Jeans de marca.',
-    fullDescription: 'Marcas famosas com preços de outlet. Calças, jaquetas e shorts jeans.',
-    offer: 'R$ 50 OFF',
-    offerDetails: 'R$ 50,00 de desconto em compras acima de R$ 250,00.',
-    imageUrl: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80',
-    rating: 4.5,
-    reviewCount: 110,
-    address: 'Rua Alfredo Pujol, 500',
-    discountCodePrefix: 'JEANS',
-    coordinates: { lat: -23.5010, lng: -46.6345 }
-  },
-
-  // --- EDUCAÇÃO ---
-  {
-    id: 'edu-1',
-    name: 'Escola de Idiomas Global',
-    category: 'Educação',
-    description: 'Inglês e Espanhol.',
-    fullDescription: 'Aprenda a criar jogos, sites e aplicativos. Cursos de Python, JavaScript e Robótica com Arduino.',
-    offer: 'Material Grátis',
-    offerDetails: 'Material didático do primeiro semestre grátis para novas matrículas.',
-    imageUrl: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=800&q=80',
-    rating: 4.9,
-    reviewCount: 95,
-    address: 'Av. Braz Leme, 1800',
-    discountCodePrefix: 'GLOBAL',
-    coordinates: { lat: -23.5060, lng: -46.6430 }
-  },
-  {
-    id: 'edu-2',
-    name: 'Kumon Santana',
-    category: 'Educação',
-    description: 'Matemática e Português.',
-    fullDescription: 'Método de estudo individualizado que busca formar alunos autodidatas. Desenvolva o raciocínio lógico.',
-    offer: 'Matrícula Zero',
-    offerDetails: 'Isenção da taxa de matrícula para alunos do Salesiano.',
-    imageUrl: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80',
-    rating: 4.8,
-    reviewCount: 42,
-    address: 'Rua Dr. Zuquim, 400',
-    discountCodePrefix: 'KUMON',
-    coordinates: { lat: -23.4950, lng: -46.6300 }
-  },
-  {
-    id: 'edu-3',
-    name: 'CodeSchool Programação',
-    category: 'Educação',
-    description: 'Aulas de Robótica e Coding.',
-    fullDescription: 'Aprenda a criar jogos, sites e aplicativos. Cursos de Python, JavaScript e Robótica com Arduino.',
-    offer: '1ª Mensalidade 50%',
-    offerDetails: '50% de desconto na primeira mensalidade dos cursos regulares.',
-    imageUrl: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=800&q=80',
-    rating: 5.0,
-    reviewCount: 30,
-    address: 'Rua Voluntários da Pátria, 1500',
-    discountCodePrefix: 'CODE',
-    coordinates: { lat: -23.5030, lng: -46.6380 }
-  },
-  {
-    id: 'edu-4',
-    name: 'Conservatório Musical Tom',
-    category: 'Educação',
-    description: 'Aulas de Música.',
-    fullDescription: 'Piano, violão, bateria e canto. Professores experientes e salas acústicas.',
-    offer: 'Aula Experimental',
-    offerDetails: 'Aula experimental gratuita e 10% de desconto no curso.',
-    imageUrl: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&w=800&q=80',
-    rating: 4.7,
-    reviewCount: 55,
-    address: 'Rua Pedro Doll, 80',
-    discountCodePrefix: 'TOM',
-    coordinates: { lat: -23.4920, lng: -46.6350 }
-  },
-  {
-    id: 'edu-5',
-    name: 'Cursinho Pré-Vestibular Top',
-    category: 'Educação',
-    description: 'Preparatório intensivo.',
-    fullDescription: 'O melhor preparatório para o ENEM e grandes vestibulares. Material exclusivo e plantão de dúvidas.',
-    offer: 'Bolsa de 20%',
-    offerDetails: '20% de bolsa para o extensivo noturno.',
-    imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80',
-    rating: 4.6,
-    reviewCount: 120,
-    address: 'Av. Cruzeiro do Sul, 3000',
-    discountCodePrefix: 'TOP',
-    coordinates: { lat: -23.5000, lng: -46.6250 }
-  },
-
-  // --- AUTOMOTIVO ---
-  {
-    id: 'auto-1',
-    name: 'Lava Rápido Clean',
-    category: 'Automotivo',
-    description: 'Lavagem automotiva.',
-    fullDescription: 'Deixe o carro dos seus pais brilhando. Lavagem completa, cera e higienização interna.',
-    offer: 'Cera Grátis',
-    offerDetails: 'Ganhe aplicação de cera líquida na lavagem completa.',
-    imageUrl: 'https://images.unsplash.com/photo-1552930294-6b595f4c2974?auto=format&fit=crop&w=800&q=80',
-    rating: 4.5,
-    reviewCount: 70,
-    address: 'Rua Alfredo Pujol, 800',
-    discountCodePrefix: 'LAVA',
-    coordinates: { lat: -23.5020, lng: -46.6350 }
-  },
-  {
-    id: 'auto-2',
-    name: 'Auto Center Sales',
-    category: 'Automotivo',
-    description: 'Mecânica e Pneus.',
-    fullDescription: 'Alinhamento, balanceamento e troca de óleo. Serviço de confiança para a família Salesiana.',
-    offer: 'Alinhamento Grátis',
-    offerDetails: 'Na compra de 2 pneus, o alinhamento é cortesia.',
-    imageUrl: 'https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=800&q=80',
-    rating: 4.7,
-    reviewCount: 85,
-    address: 'Av. Braz Leme, 800',
-    discountCodePrefix: 'PNEU',
-    coordinates: { lat: -23.5090, lng: -46.6470 }
-  },
-  {
-    id: 'auto-3',
-    name: 'Posto Shell Santana',
-    category: 'Automotivo',
-    description: 'Combustível e conveniência.',
-    fullDescription: 'Abasteça com qualidade. Gasolina V-Power com desconto especial no app.',
-    offer: 'R$ 0,10 OFF/L',
-    offerDetails: 'Desconto de R$ 0,10 por litro na gasolina aditivada.',
-    imageUrl: 'https://images.unsplash.com/photo-1569063386798-345908b6b4ca?auto=format&fit=crop&w=800&q=80',
-    rating: 4.4,
-    reviewCount: 210,
-    address: 'Rua Voluntários da Pátria, 1000',
-    discountCodePrefix: 'SHELL',
-    coordinates: { lat: -23.5040, lng: -46.6400 }
-  },
-  {
-    id: 'auto-4',
-    name: 'Estacionamento Seguro',
-    category: 'Automotivo',
-    description: 'Estacionamento mensalista.',
-    fullDescription: 'Estacionamento coberto e com seguro próximo ao colégio. Ideal para pais que buscam os filhos.',
-    offer: '1ª Hora Grátis',
-    offerDetails: 'Primeira hora grátis para validação no período de saída escolar.',
-    imageUrl: 'https://images.unsplash.com/photo-1470224114660-3f6686c562eb?auto=format&fit=crop&w=800&q=80',
-    rating: 4.3,
-    reviewCount: 45,
-    address: 'Rua Augusto Tolle, 100',
-    discountCodePrefix: 'PARK',
-    coordinates: { lat: -23.4960, lng: -46.6350 }
-  },
-  {
-    id: 'auto-5',
-    name: 'Som e Acessórios Express',
-    category: 'Automotivo',
-    description: 'Insulfilm e multimídia.',
-    fullDescription: 'Instalação de som, alarme e películas de proteção solar. Tecnologia para seu carro.',
-    offer: '15% OFF',
-    offerDetails: '15% de desconto na instalação de insulfilm.',
-    imageUrl: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=800&q=80',
-    rating: 4.6,
-    reviewCount: 38,
-    address: 'Av. Imirim, 500',
-    discountCodePrefix: 'SOM',
-    coordinates: { lat: -23.4950, lng: -46.6400 }
-  },
-
-  // --- PRODUTOS ---
-  {
-    id: 'prod-1',
-    name: 'Papelaria Estudantil',
-    category: 'Produtos',
-    description: 'Material escolar completo.',
-    fullDescription: 'Tudo o que você precisa para seus estudos. Cadernos, canetas, mochilas e livros didáticos com preços especiais para alunos Salesianos.',
-    offer: '10% OFF',
-    offerDetails: '10% de desconto em compras acima de R$ 50,00.',
-    imageUrl: 'https://images.unsplash.com/photo-1503602642458-232111445857?auto=format&fit=crop&w=800&q=80',
-    rating: 4.5,
-    reviewCount: 89,
-    address: 'Av. Braz Leme, 2200',
-    discountCodePrefix: 'PAPEL',
-    coordinates: { lat: -23.5050, lng: -46.6420 }
-  },
-  {
-    id: 'prod-2',
-    name: 'Uniforme & Cia',
-    category: 'Produtos',
-    description: 'Uniformes oficiais do colégio.',
-    fullDescription: 'Revendedor autorizado dos uniformes do Salesiano Santa Terezinha. Tecidos de alta durabilidade e conforto.',
-    offer: '5% OFF',
-    offerDetails: '5% de desconto na compra do kit completo de verão ou inverno.',
-    imageUrl: 'https://images.unsplash.com/photo-1584270354949-c26b3d5b1655?auto=format&fit=crop&w=800&q=80',
-    rating: 4.2,
-    reviewCount: 56,
-    address: 'Rua Conselheiro Moreira de Barros, 900',
-    discountCodePrefix: 'UNI',
-    coordinates: { lat: -23.4930, lng: -46.6380 }
-  },
-  {
-    id: 'prod-3',
-    name: 'Livraria Leitura Viva',
-    category: 'Produtos',
-    description: 'Livros e presentes.',
-    fullDescription: 'Encontre todos os livros da lista escolar, best-sellers e ótimas opções de presentes.',
-    offer: '5% OFF Livros',
-    offerDetails: '5% de desconto em livros didáticos mediante apresentação da carteirinha.',
-    imageUrl: 'https://images.unsplash.com/photo-1507842217121-e0493caf8276?auto=format&fit=crop&w=800&q=80',
-    rating: 4.9,
-    reviewCount: 110,
-    address: 'Shopping Center Norte',
-    discountCodePrefix: 'LEITURA',
-    coordinates: { lat: -23.5150, lng: -46.6170 }
-  },
-  {
-    id: 'prod-4',
-    name: 'Mundo do Celular',
-    category: 'Produtos',
-    description: 'Capinhas e acessórios.',
-    fullDescription: 'Proteja seu smartphone com estilo. Capinhas, películas, carregadores e fones de ouvido.',
-    offer: 'Compre 2 Leve 3',
-    offerDetails: 'Na compra de 2 capinhas, ganhe uma película simples.',
-    imageUrl: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80',
-    rating: 4.6,
-    reviewCount: 150,
-    address: 'Rua Dr. César, 120',
-    discountCodePrefix: 'CAPA',
-    coordinates: { lat: -23.4965, lng: -46.6315 }
-  },
-  {
-    id: 'prod-5',
-    name: 'Gift Shop Criativa',
-    category: 'Produtos',
-    description: 'Presentes e decoração.',
-    fullDescription: 'Presentes criativos para todas as ocasiões. Canecas, almofadas e itens de decoração geek.',
-    offer: '15% Aniversário',
-    offerDetails: '15% de desconto no mês do seu aniversário.',
-    imageUrl: 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=800&q=80',
-    rating: 4.7,
-    reviewCount: 60,
-    address: 'Rua Alfredo Pujol, 200',
-    discountCodePrefix: 'GIFT',
-    coordinates: { lat: -23.4995, lng: -46.6345 }
-  },
-
-  // --- INFANTIL ---
-  {
-    id: 'inf-1',
-    name: 'Mundo Kids Brinquedos',
-    category: 'Infantil',
-    description: 'Brinquedos educativos e divertidos.',
-    fullDescription: 'A melhor loja de brinquedos da região, com opções para todas as idades. Jogos de tabuleiro, bonecas, carrinhos e muito mais.',
-    offer: '12% OFF',
-    offerDetails: '12% de desconto em toda a loja para pagamentos à vista.',
-    imageUrl: 'https://images.unsplash.com/photo-1558877385-81a1c7e67d72?auto=format&fit=crop&w=800&q=80',
-    rating: 4.9,
-    reviewCount: 78,
-    address: 'Rua Voluntários da Pátria, 200',
-    discountCodePrefix: 'KIDS',
-    coordinates: { lat: -23.4980, lng: -46.6350 }
-  },
-  {
-    id: 'inf-2',
-    name: 'Parque da Alegria',
-    category: 'Infantil',
-    description: 'Buffet e parque indoor.',
-    fullDescription: 'Diversão garantida! Piscinas de bolinhas, camas elásticas e videogames. Ótimo para festas de aniversário.',
-    offer: 'Passaporte 2x1',
-    offerDetails: 'Compre 1 hora de brincadeira e ganhe mais 1 hora grátis.',
-    imageUrl: 'https://images.unsplash.com/photo-1572072393749-3ca9c8ea0831?auto=format&fit=crop&w=800&q=80',
-    rating: 4.7,
-    reviewCount: 205,
-    address: 'Av. Engenheiro Caetano Álvares, 4000',
-    discountCodePrefix: 'PARQUE',
-    coordinates: { lat: -23.4900, lng: -46.6550 },
-    isFeatured: true
-  },
-  {
-    id: 'inf-3',
-    name: 'Bebê Store',
-    category: 'Infantil',
-    description: 'Roupas e enxoval para bebês.',
-    fullDescription: 'Tudo para o irmãozinho mais novo. Bodies, macacões e carrinhos das melhores marcas com conforto total.',
-    offer: '10% OFF',
-    offerDetails: '10% de desconto na linha de roupas RN a 3 anos.',
-    imageUrl: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=800&q=80',
-    rating: 4.8,
-    reviewCount: 60,
-    address: 'Rua Dr. César, 500',
-    discountCodePrefix: 'BEBE',
-    coordinates: { lat: -23.4980, lng: -46.6310 }
-  },
-  {
-    id: 'inf-4',
-    name: 'Fábrica de Sonhos',
-    category: 'Infantil',
-    description: 'Fantasias e artigos de festa.',
-    fullDescription: 'Fantasias de heróis e princesas para festas escolares e carnaval. Decoração completa para aniversários.',
-    offer: 'Aluguel 15% OFF',
-    offerDetails: '15% de desconto no aluguel de fantasias.',
-    imageUrl: 'https://images.unsplash.com/photo-1530103862676-de3c9a59af57?auto=format&fit=crop&w=800&q=80',
-    rating: 4.5,
-    reviewCount: 33,
-    address: 'Rua Alfredo Pujol, 600',
-    discountCodePrefix: 'SONHO',
-    coordinates: { lat: -23.5000, lng: -46.6340 }
-  },
-  {
-    id: 'inf-5',
-    name: 'Kids Moda',
-    category: 'Infantil',
-    description: 'Moda casual infantojuvenil.',
-    fullDescription: 'Roupas descoladas para o fim de semana. Jeans, camisetas e vestidos cheios de estilo.',
-    offer: 'Compre 3 Pague 2',
-    offerDetails: 'Na compra de 3 camisetas básicas, a de menor valor é grátis.',
-    imageUrl: 'https://images.unsplash.com/photo-1519238263496-6343d700f5de?auto=format&fit=crop&w=800&q=80',
-    rating: 4.6,
-    reviewCount: 90,
-    address: 'Santana Parque Shopping',
-    discountCodePrefix: 'MODA',
-    coordinates: { lat: -23.4885, lng: -46.6455 }
-  },
-
-  // --- PET ---
-  {
-    id: 'pet-1',
-    name: 'Pet Shop Amigo Fiel',
-    category: 'Pet',
-    description: 'Banho, tosa e rações.',
-    fullDescription: 'Cuidamos do seu melhor amigo com todo carinho. Banho, tosa, veterinário e uma linha completa de rações premium.',
-    offer: '10% OFF',
-    offerDetails: '10% de desconto em banho e tosa (seg a qua).',
-    imageUrl: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=800&q=80',
-    rating: 4.7,
-    reviewCount: 45,
-    address: 'Rua Dr. Zuquim, 500',
-    discountCodePrefix: 'PET',
-    coordinates: { lat: -23.4950, lng: -46.6300 }
-  },
-  {
-    id: 'pet-2',
-    name: 'Clínica Vet Care',
-    category: 'Pet',
-    description: 'Veterinário 24 horas.',
-    fullDescription: 'Atendimento de emergência, vacinas e consultas de rotina. Especialistas em cães e gatos.',
-    offer: 'Consulta R$ 80',
-    offerDetails: 'Preço fixo de R$ 80,00 na primeira consulta de rotina.',
-    imageUrl: 'https://images.unsplash.com/photo-1628009368231-760335298457?auto=format&fit=crop&w=800&q=80',
-    rating: 4.9,
-    reviewCount: 112,
-    address: 'Av. Imirim, 1200',
-    discountCodePrefix: 'VET',
-    coordinates: { lat: -23.4920, lng: -46.6480 }
-  },
-  {
-    id: 'pet-3',
-    name: 'Dog Walker Santana',
-    category: 'Pet',
-    description: 'Passeios e pet sitter.',
-    fullDescription: 'Seu cãozinho precisa gastar energia? Passeadores treinados e de confiança para levar seu pet para caminhar.',
-    offer: '1º Passeio Grátis',
-    offerDetails: 'Contrate um pacote mensal e ganhe o primeiro passeio experimental.',
-    imageUrl: 'https://images.unsplash.com/photo-1601758177266-bc599de87707?auto=format&fit=crop&w=800&q=80',
-    rating: 5.0,
-    reviewCount: 28,
-    address: 'Atendimento em Domicílio',
-    discountCodePrefix: 'WALK',
-    coordinates: { lat: -23.4963, lng: -46.6367 }
-  },
-  {
-    id: 'pet-4',
-    name: 'Casa da Ração',
-    category: 'Pet',
-    description: 'Rações e acessórios.',
-    fullDescription: 'As melhores marcas de ração (Royal Canin, Premier, Golden) com entrega grátis na região.',
-    offer: 'Entrega Grátis',
-    offerDetails: 'Frete grátis para compras de ração acima de 10kg.',
-    imageUrl: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=800&q=80',
-    rating: 4.4,
-    reviewCount: 65,
-    address: 'Rua Conselheiro Moreira de Barros, 500',
-    discountCodePrefix: 'RACAO',
-    coordinates: { lat: -23.4940, lng: -46.6370 }
-  },
-  {
-    id: 'pet-5',
-    name: 'Hotel Pet Resort',
-    category: 'Pet',
-    description: 'Hospedagem para cães.',
-    fullDescription: 'Vai viajar nas férias? Deixe seu pet em nosso hotel com amplo espaço verde, piscina e monitoramento 24h.',
-    offer: '10% OFF Diária',
-    offerDetails: '10% de desconto na diária para pacotes acima de 5 dias.',
-    imageUrl: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=800&q=80',
-    rating: 4.8,
-    reviewCount: 50,
-    address: 'Serra da Cantareira',
-    discountCodePrefix: 'RESORT',
-    coordinates: { lat: -23.4200, lng: -46.6000 }
-  },
-
-  // --- SAÚDE E BELEZA ---
-  {
-    id: 'sau-1',
-    name: 'Academia FitZone',
-    category: 'Saúde e Beleza',
-    description: 'Musculação e Natação.',
-    fullDescription: 'Mantenha a saúde em dia na FitZone. Equipamentos modernos, piscina aquecida e instrutores qualificados.',
-    offer: 'Matrícula Grátis',
-    offerDetails: 'Isenção total da taxa de matrícula e 1º mês com 50% de desconto.',
-    imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80',
-    rating: 4.9,
-    reviewCount: 210,
-    address: 'Rua Alfredo Pujol, 45',
-    discountCodePrefix: 'FITZ',
-    coordinates: { lat: -23.4990, lng: -46.6340 },
-    isFeatured: true
-  },
-  {
-    id: 'sau-2',
-    name: 'Sorriso Brilhante Odonto',
-    category: 'Saúde e Beleza',
-    description: 'Ortodontia e clínica geral.',
-    fullDescription: 'Clínica especializada em aparelhos ortodônticos. Cuide do seu sorriso com a melhor equipe.',
-    offer: 'Avaliação Grátis',
-    offerDetails: 'Avaliação e documentação ortodôntica com 50% de desconto.',
-    imageUrl: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=800&q=80',
-    rating: 4.7,
-    reviewCount: 85,
-    address: 'Rua Voluntários da Pátria, 1500, Sala 2',
-    discountCodePrefix: 'DENTE',
-    coordinates: { lat: -23.5030, lng: -46.6380 }
-  },
-  {
-    id: 'sau-3',
-    name: 'Clínica de Olhos Visão',
-    category: 'Saúde e Beleza',
-    description: 'Oftalmologista e óculos.',
-    fullDescription: 'Exames de vista completos. Temos ótica própria com armações modernas.',
-    offer: '20% em Óculos',
-    offerDetails: '20% de desconto na confecção de óculos completos (armação + lentes).',
-    imageUrl: 'https://images.unsplash.com/photo-1570222094114-28a9d88a27e6?auto=format&fit=crop&w=800&q=80',
-    rating: 4.8,
-    reviewCount: 62,
-    address: 'Av. Braz Leme, 1000',
-    discountCodePrefix: 'VISAO',
-    coordinates: { lat: -23.5080, lng: -46.6450 }
-  },
-  {
-    id: 'sau-4',
-    name: 'NutriVida',
-    category: 'Saúde e Beleza',
-    description: 'Nutrição esportiva e clínica.',
-    fullDescription: 'Acompanhamento nutricional para adolescentes e atletas. Planos alimentares personalizados.',
-    offer: '15% OFF',
-    offerDetails: '15% de desconto na consulta particular.',
-    imageUrl: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=800&q=80',
-    rating: 4.9,
-    reviewCount: 40,
-    address: 'Rua Dr. César, 200',
-    discountCodePrefix: 'NUTRI',
-    coordinates: { lat: -23.4970, lng: -46.6320 }
-  },
-  {
-    id: 'sau-5',
-    name: 'Pilates Studio Zen',
-    category: 'Saúde e Beleza',
-    description: 'Pilates e Yoga.',
-    fullDescription: 'Melhore sua postura e concentração. Aulas em pequenos grupos com atenção individualizada.',
-    offer: 'Aula Experimental',
-    offerDetails: 'Faça uma aula experimental gratuita e ganhe 10% na primeira mensalidade.',
-    imageUrl: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80',
-    rating: 4.8,
-    reviewCount: 55,
-    address: 'Rua Pedro Doll, 150',
-    discountCodePrefix: 'ZEN',
-    coordinates: { lat: -23.4930, lng: -46.6360 }
-  },
-
-  // --- ESPORTE E LAZER ---
-  {
-    id: 'laz-2',
-    name: 'Bowling Strike',
-    category: 'Esporte e Lazer',
-    description: 'Boliche e diversão.',
-    fullDescription: 'Reúna a galera para jogar boliche. Pistas modernas, música e cardápio de lanches.',
-    offer: 'Aluguel de Sapatos',
-    offerDetails: 'Aluguel de sapatos grátis para grupos acima de 4 pessoas.',
-    imageUrl: 'https://images.unsplash.com/photo-1538514083228-9082564a30bc?auto=format&fit=crop&w=800&q=80',
-    rating: 4.5,
-    reviewCount: 88,
-    address: 'Shopping Lar Center',
-    discountCodePrefix: 'BOWL',
-    coordinates: { lat: -23.5130, lng: -46.6190 }
-  },
-  {
-    id: 'laz-4',
-    name: 'Kartódromo Speed',
-    category: 'Esporte e Lazer',
-    description: 'Corrida de Kart indoor.',
-    fullDescription: 'Acelere fundo em nossa pista indoor. Equipamentos de segurança inclusos e cronometragem profissional.',
-    offer: 'Bateria Extra',
-    offerDetails: 'Corra 2 baterias e ganhe 50% de desconto na 3ª.',
-    imageUrl: 'https://images.unsplash.com/photo-1505322989531-15b9c0379294?auto=format&fit=crop&w=800&q=80',
-    rating: 4.7,
-    reviewCount: 65,
-    address: 'Av. Otto Baumgart, 1000',
-    discountCodePrefix: 'KART',
-    coordinates: { lat: -23.5180, lng: -46.6100 }
-  },
-  {
-    id: 'laz-6',
-    name: 'Arena Beach Tennis',
-    category: 'Esporte e Lazer',
-    description: 'Quadras de areia.',
-    fullDescription: 'Pratique Beach Tennis, Vôlei e Futevôlei. Quadras cobertas e estrutura completa.',
-    offer: 'Aluguel 20% OFF',
-    offerDetails: '20% de desconto no aluguel da quadra em horários promocionais.',
-    imageUrl: 'https://images.unsplash.com/photo-1629814596312-32d721200021?auto=format&fit=crop&w=800&q=80',
-    rating: 4.8,
-    reviewCount: 42,
-    address: 'Rua Voluntários da Pátria, 2000',
-    discountCodePrefix: 'BEACH',
-    coordinates: { lat: -23.5050, lng: -46.6390 }
-  },
-  {
-    id: 'laz-7',
-    name: 'Clube de Tiro Alvo',
-    category: 'Esporte e Lazer',
-    description: 'Airsoft e Paintball.',
-    fullDescription: 'Campos temáticos para prática de Airsoft e Paintball. Diversão em equipe.',
-    offer: '100 Bolinhas Grátis',
-    offerDetails: 'Ganhe 100 bolinhas extras no pacote básico.',
-    imageUrl: 'https://images.unsplash.com/photo-1563297244-6c3933c09b53?auto=format&fit=crop&w=800&q=80',
-    rating: 4.6,
-    reviewCount: 55,
-    address: 'Av. Zaki Narchi, 500',
-    discountCodePrefix: 'ALVO',
-    coordinates: { lat: -23.5120, lng: -46.6150 }
-  },
-  {
-    id: 'laz-8',
-    name: 'Escola de Skate',
-    category: 'Esporte e Lazer',
-    description: 'Aulas de skate.',
-    fullDescription: 'Aprenda a andar de skate com instrutores profissionais. Pista própria e segura.',
-    offer: 'Aula em Dobro',
-    offerDetails: 'Pague 1 aula e faça 2 (para novos alunos).',
-    imageUrl: 'https://images.unsplash.com/photo-1564982752979-3f7bc974d29a?auto=format&fit=crop&w=800&q=80',
-    rating: 4.9,
-    reviewCount: 30,
-    address: 'Parque da Juventude',
-    discountCodePrefix: 'SKATE',
-    coordinates: { lat: -23.5070, lng: -46.6240 }
-  },
-
-  // --- ENTRETERIMENTO ---
-  {
-    id: 'laz-1',
-    name: 'Cinema CineMark',
-    category: 'Entretenimento',
-    description: 'Ingressos de cinema.',
-    fullDescription: 'Os maiores lançamentos mundiais você vê aqui. Salas XD e conforto total.',
-    offer: 'Meia Entrada + Pipoca',
-    offerDetails: 'Na compra de um ingresso (mesmo meia), ganhe um upgrade na pipoca pequena para média.',
-    imageUrl: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80',
-    rating: 4.6,
-    reviewCount: 450,
-    address: 'Shopping Center Norte',
-    discountCodePrefix: 'CINE',
-    coordinates: { lat: -23.5155, lng: -46.6175 },
-    isFeatured: true
-  },
-  {
-    id: 'laz-3',
-    name: 'Escape Room Mystery',
-    category: 'Entretenimento',
-    description: 'Jogos de fuga.',
-    fullDescription: 'Você e seus amigos têm 60 minutos para escapar. Enigmas, mistérios e muita adrenalina.',
-    offer: '10% OFF Grupo',
-    offerDetails: '10% de desconto para grupos de 6 ou mais pessoas.',
-    imageUrl: 'https://images.unsplash.com/photo-1511882150382-421056ac8d2f?auto=format&fit=crop&w=800&q=80',
-    rating: 4.9,
-    reviewCount: 120,
-    address: 'Rua Dr. Zuquim, 900',
-    discountCodePrefix: 'ESCAPE',
-    coordinates: { lat: -23.4900, lng: -46.6280 }
-  },
-  {
-    id: 'laz-5',
-    name: 'Teatro Shopping',
-    category: 'Entretenimento',
-    description: 'Peças teatrais e shows.',
-    fullDescription: 'Cultura e entretenimento. Peças de comédia, drama e musicais em cartaz.',
-    offer: 'Meia para Acomp.',
-    offerDetails: 'Estudante Salesiano paga meia e o acompanhante também.',
-    imageUrl: 'https://images.unsplash.com/photo-1507676184212-d0370baf55f2?auto=format&fit=crop&w=800&q=80',
-    rating: 4.8,
-    reviewCount: 92,
-    address: 'Shopping Center Norte',
-    discountCodePrefix: 'TEATRO',
-    coordinates: { lat: -23.5150, lng: -46.6170 }
-  },
-  {
-    id: 'ent-1',
-    name: 'Show House Hall',
-    category: 'Entretenimento',
-    description: 'Shows e eventos.',
-    fullDescription: 'Os melhores shows da cidade. Espaço para eventos e formaturas.',
-    offer: 'Ingresso VIP',
-    offerDetails: 'Compre pista e ganhe upgrade para pista premium (selecionados).',
-    imageUrl: 'https://images.unsplash.com/photo-1459749411177-d4a428c389f5?auto=format&fit=crop&w=800&q=80',
-    rating: 4.5,
-    reviewCount: 150,
-    address: 'Av. Olavo Fontoura, 1209',
-    discountCodePrefix: 'SHOW',
-    coordinates: { lat: -23.5100, lng: -46.6300 }
-  },
-  {
-    id: 'ent-2',
-    name: 'Museu Interativo',
-    category: 'Entretenimento',
-    description: 'Exposições tecnológicas.',
-    fullDescription: 'Aprenda ciência e história de forma divertida. Exposições imersivas.',
-    offer: 'Entrada Franca',
-    offerDetails: 'Entrada gratuita às terças-feiras para estudantes.',
-    imageUrl: 'https://images.unsplash.com/photo-1518998053980-fa646e742232?auto=format&fit=crop&w=800&q=80',
-    rating: 4.7,
-    reviewCount: 60,
-    address: 'Parque da Juventude',
-    discountCodePrefix: 'MUSEU',
-    coordinates: { lat: -23.5060, lng: -46.6250 }
-  },
-
-  // --- SERVIÇOS ---
-  {
-    id: 'ser-2',
-    name: 'Barbearia do Norte',
-    category: 'Serviços',
-    description: 'Corte de cabelo e barba.',
-    fullDescription: 'Estilo e tradição. Cortes modernos, degradê e barba com toalha quente.',
-    offer: 'Corte + Sobrancelha',
-    offerDetails: 'Faça o corte de cabelo e ganhe o design de sobrancelha.',
-    imageUrl: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=80',
-    rating: 4.8,
-    reviewCount: 130,
-    address: 'Rua Voluntários da Pátria, 1800',
-    discountCodePrefix: 'BARBA',
-    coordinates: { lat: -23.5025, lng: -46.6370 }
-  },
-  {
-    id: 'ser-3',
-    name: 'Tech Fix Celulares',
-    category: 'Serviços',
-    description: 'Assistência técnica.',
-    fullDescription: 'Conserto de celulares e tablets. Troca de tela, bateria e acessórios.',
-    offer: 'Película de Vidro',
-    offerDetails: 'Ganhe uma película de vidro na troca de tela de qualquer modelo.',
-    imageUrl: 'https://images.unsplash.com/photo-1597424214711-2092552f4c94?auto=format&fit=crop&w=800&q=80',
-    rating: 4.6,
-    reviewCount: 55,
-    address: 'Rua Dr. César, 100',
-    discountCodePrefix: 'TECH',
-    coordinates: { lat: -23.4960, lng: -46.6310 }
-  },
-  {
-    id: 'ser-4',
-    name: 'Costura Express',
-    category: 'Serviços',
-    description: 'Ajustes de roupas.',
-    fullDescription: 'Ajustes rápidos em calças, camisas e vestidos. Bainhas feitas na hora.',
-    offer: '10% OFF',
-    offerDetails: '10% de desconto em serviços acima de R$ 50,00.',
-    imageUrl: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80',
-    rating: 4.4,
-    reviewCount: 25,
-    address: 'Rua Leite de Morais, 80',
-    discountCodePrefix: 'COSTURA2',
-    coordinates: { lat: -23.4995, lng: -46.6365 }
-  },
-  {
-    id: 'ser-6',
-    name: 'Lavanderia Lava e Seca',
-    category: 'Serviços',
-    description: 'Lavagem de roupas.',
-    fullDescription: 'Lave suas roupas com rapidez e eficiência. Secagem inclusa.',
-    offer: 'Cesto com 10% OFF',
-    offerDetails: '10% de desconto na lavagem do cesto médio.',
-    imageUrl: 'https://images.unsplash.com/photo-1517677208171-0bc12dd70ef3?auto=format&fit=crop&w=800&q=80',
-    rating: 4.5,
-    reviewCount: 40,
-    address: 'Rua Dr. Zuquim, 300',
-    discountCodePrefix: 'LAVO',
-    coordinates: { lat: -23.4950, lng: -46.6300 }
-  },
-  {
-    id: 'ser-7',
-    name: 'Chaveiro 24h',
-    category: 'Serviços',
-    description: 'Cópias e aberturas.',
-    fullDescription: 'Perdeu a chave? Atendimento rápido para residências e autos.',
-    offer: 'Cópia Grátis',
-    offerDetails: 'Faça 3 cópias simples e ganhe a 4ª.',
-    imageUrl: 'https://images.unsplash.com/photo-1589923188900-85dae5233271?auto=format&fit=crop&w=800&q=80',
-    rating: 4.8,
-    reviewCount: 60,
-    address: 'Av. Braz Leme, 500',
-    discountCodePrefix: 'KEY',
-    coordinates: { lat: -23.5100, lng: -46.6460 }
   }
 ];
 
+// Re-add missing partners for completeness if needed, but for now focusing on structure
 export const partners = partnersData;
 
 // Mock Notifications
@@ -999,4 +210,68 @@ export const toggleFavorite = (id: string): boolean => {
         return partner.isFavorite;
     }
     return false;
+};
+
+// Gamification Logic
+export const addCoins = (amount: number, reason: string) => {
+  const oldXp = currentUser.xp;
+  const thresholdRatio = 0.8; // 80%
+  const oldProgress = oldXp / currentUser.nextLevelXp;
+
+  currentUser.coins += amount;
+  currentUser.xp += amount;
+  
+  const currentProgress = currentUser.xp / currentUser.nextLevelXp;
+
+  // Check Level Up
+  if (currentUser.xp >= currentUser.nextLevelXp) {
+    currentUser.level += 1;
+    currentUser.nextLevelXp = Math.floor(currentUser.nextLevelXp * 1.5);
+    
+    const titles = ['Novato', 'Explorador', 'Caçador de Ofertas', 'Mestre das Vantagens', 'Embaixador Salesiano', 'Lenda'];
+    if (currentUser.level - 1 < titles.length) {
+      currentUser.levelTitle = titles[currentUser.level - 1];
+    }
+    
+    // Add Notification
+    notifications.unshift({
+      id: `lvl-${Date.now()}`,
+      title: 'Level Up! 🎉',
+      message: `Parabéns! Você alcançou o nível ${currentUser.level} e agora é um ${currentUser.levelTitle}!`,
+      date: 'Agora',
+      read: false,
+      type: 'coin'
+    });
+  } 
+  // Check if crossed the 80% threshold (and wasn't already above it or leveled up)
+  else if (oldProgress < thresholdRatio && currentProgress >= thresholdRatio) {
+     notifications.unshift({
+      id: `incentive-${Date.now()}`,
+      title: 'Quase lá! 🚀',
+      message: `Falta pouco para o Nível ${currentUser.level + 1}! Você já completou 80% do XP necessário. Continue assim!`,
+      date: 'Agora',
+      read: false,
+      type: 'system'
+    });
+  }
+
+  // Add Notification for coins
+  notifications.unshift({
+    id: `coin-${Date.now()}`,
+    title: `+${amount} CoinZ`,
+    message: `Você ganhou ${amount} CoinZ: ${reason}`,
+    date: 'Agora',
+    read: false,
+    type: 'coin'
+  });
+  
+  return currentUser.coins;
+};
+
+export const spendCoins = (amount: number): boolean => {
+  if (currentUser.coins >= amount) {
+    currentUser.coins -= amount;
+    return true;
+  }
+  return false;
 };

@@ -1,9 +1,8 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Clock, Star, Send, AlertCircle, Sparkles, MapPin, ExternalLink, Heart, Home } from 'lucide-react';
+import { ArrowLeft, Clock, Star, Send, AlertCircle, Sparkles, MapPin, ExternalLink, Heart, Home, Coins } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
-import { partners, DEFAULT_PARTNER_IMAGE, toggleFavorite } from '../services/data';
+import { partners, DEFAULT_PARTNER_IMAGE, toggleFavorite, addCoins } from '../services/data';
 import { generateAiTip } from '../services/geminiService';
 
 const PartnerDetail: React.FC = () => {
@@ -17,6 +16,7 @@ const PartnerDetail: React.FC = () => {
   const [accessCode, setAccessCode] = useState('');
   const [aiTip, setAiTip] = useState<string>('');
   const [isFavorite, setIsFavorite] = useState(false);
+  const [hasEarnedCoins, setHasEarnedCoins] = useState(false);
 
   // State for Reviews
   const [userRating, setUserRating] = useState(0);
@@ -78,9 +78,13 @@ const PartnerDetail: React.FC = () => {
           stars: userRating,
           text: reviewText
       }, ...prev]);
+      
+      // Gamification: Reward for Review
+      addCoins(20, `Avaliação em ${partner?.name}`);
+      
       setReviewText('');
       setUserRating(0);
-      alert('Avaliação enviada com sucesso!');
+      alert('Avaliação enviada! Você ganhou 20 CoinZ!');
   };
 
   const handleToggleFavorite = () => {
@@ -89,6 +93,14 @@ const PartnerDetail: React.FC = () => {
           setIsFavorite(newState);
       }
   };
+  
+  // Simulate Using Code (In real app, merchant scans QR)
+  const handleSimulateUse = () => {
+      if (hasEarnedCoins) return;
+      addCoins(50, `Cupom usado em ${partner?.name}`);
+      setHasEarnedCoins(true);
+      alert("Simulação: Cupom validado! Você ganhou 50 CoinZ.");
+  }
 
   if (!partner) return <div className="p-10 text-center text-gray-800 dark:text-white">Parceiro não encontrado</div>;
 
@@ -168,6 +180,12 @@ const PartnerDetail: React.FC = () => {
             <div className="bg-red-50 dark:bg-red-900/10 border-l-4 border-salesiano-red p-4 rounded-r-xl shadow-sm dark:shadow-none">
                 <p className="text-2xl font-bold text-salesiano-red dark:text-salesiano-light">{partner.offer}</p>
                 <p className="text-slate-600 dark:text-gray-300 mt-1">{partner.offerDetails}</p>
+                
+                {/* Gamification Badge */}
+                <div className="mt-3 flex items-center gap-2 text-xs font-bold text-yellow-600 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/30 px-2 py-1 rounded w-fit">
+                    <Coins size={14} className="fill-yellow-600 dark:fill-yellow-400" />
+                    Ganhe 50 CoinZ ao utilizar!
+                </div>
             </div>
             <p className="text-slate-500 dark:text-gray-400 mt-4 leading-relaxed text-sm">{partner.fullDescription}</p>
         </div>
@@ -202,6 +220,14 @@ const PartnerDetail: React.FC = () => {
                         <AlertCircle size={12} /> Expira em 5 minutos
                     </p>
                 </div>
+
+                <button 
+                    onClick={handleSimulateUse}
+                    disabled={hasEarnedCoins}
+                    className={`w-full py-3 rounded-xl font-bold text-sm transition ${hasEarnedCoins ? 'bg-green-600 text-white cursor-default' : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-gray-400 hover:bg-slate-300 dark:hover:bg-slate-700'}`}
+                >
+                    {hasEarnedCoins ? 'CoinZ Recebidos! 🎉' : 'Simular Validação (Demo)'}
+                </button>
             </div>
         </div>
 
@@ -247,7 +273,12 @@ const PartnerDetail: React.FC = () => {
 
         {/* Reviews Section */}
         <div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Avaliações</h3>
+            <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Avaliações</h3>
+                <span className="text-xs font-medium text-yellow-600 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/30 px-2 py-0.5 rounded flex items-center gap-1">
+                    <Coins size={10} className="fill-current" /> Ganhe +20
+                </span>
+            </div>
             
             {/* Input Review */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 mb-6 shadow-sm transition-colors">

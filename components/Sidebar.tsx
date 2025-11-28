@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { X, Home, User, Share2, LayoutGrid, LogOut, Bell, ShieldCheck, Handshake, Sun, Moon } from 'lucide-react';
+import { X, Home, User, Share2, LayoutGrid, LogOut, Bell, ShieldCheck, Handshake, Sun, Moon, Coins } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
 interface SidebarProps {
@@ -15,6 +15,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const menuItems = [
     { path: '/', label: 'Início', icon: Home },
     { path: '/profile', label: 'Meu Perfil', icon: User },
+    { path: '/coin-rules', label: 'Regras & Diretrizes', icon: Coins }, 
     { path: '/categories', label: 'Categorias', icon: LayoutGrid },
     { path: '/notifications', label: 'Notificações', icon: Bell },
     { path: '/refer', label: 'Indique um Parceiro', icon: Share2 },

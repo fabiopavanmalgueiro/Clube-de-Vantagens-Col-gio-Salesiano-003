@@ -43,6 +43,13 @@ export interface User {
   grade: string;
   avatarUrl: string;
   totalSavings: number;
+  coins: number;
+  level: number;
+  xp: number;
+  nextLevelXp: number;
+  levelTitle: string;
+  rankingPosition: number; // Global ranking position
+  prizeBalance: number; // Balance for the R$ 1000 prize
 }
 
 export interface Notification {
@@ -51,11 +58,21 @@ export interface Notification {
   message: string;
   date: string;
   read: boolean;
-  type: 'offer' | 'system' | 'alert';
+  type: 'offer' | 'system' | 'alert' | 'coin';
 }
 
 export interface NotificationPreference {
   id: string;
   label: string;
   enabled: boolean;
+}
+
+export interface Reward {
+  id: string;
+  name: string;
+  description: string;
+  cost: number;
+  icon: string;
+  type: 'avatar' | 'voucher' | 'item';
+  purchased?: boolean;
 }

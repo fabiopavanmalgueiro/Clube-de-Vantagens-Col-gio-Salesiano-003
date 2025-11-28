@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
 import { Home as HomeIcon, LayoutGrid, Bell, User } from 'lucide-react';
@@ -17,6 +16,8 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminPartnerForm from './pages/admin/AdminPartnerForm';
 import DigitalCard from './pages/DigitalCard';
 import UsageHistory from './pages/UsageHistory';
+import CoinStore from './pages/CoinStore';
+import CoinRules from './pages/CoinRules';
 import { ThemeProvider } from './contexts/ThemeContext';
 
 const BottomNavigation = () => {
@@ -90,6 +91,8 @@ const AppContent: React.FC = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/digital-card" element={<DigitalCard />} />
             <Route path="/usage-history" element={<UsageHistory />} />
+            <Route path="/coin-store" element={<CoinStore />} />
+            <Route path="/coin-rules" element={<CoinRules />} />
 
             {/* Admin */}
             <Route path="/admin" element={<AdminDashboard />} />
